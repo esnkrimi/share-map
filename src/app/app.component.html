@@ -1,0 +1,97 @@
+<div [class.master]="cancel">
+  <div class="text-center w-100 m-2">
+    <div class="block w-40 rounded">
+      <div class="bg-primary text-light p-2 fw-bold rounded-top text-start">
+        Share Location
+      </div>
+      <div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="frame p-3">
+            <div *ngFor="let item of fields" class="p-2 d-flex flex-nowrap">
+              <div style="flex-basis: 50%" class="w-100 text-start">
+                {{ item.title }} :
+              </div>
+              <div style="flex-basis: 50%" class="text-left">
+                <div [ngSwitch]="item.type">
+                  <div *ngSwitchCase="'input'">
+                    <input
+                      class="w-100"
+                      [formControlName]="item.name"
+                      type="text"
+                    />
+                  </div>
+
+                  <div *ngSwitchCase="'file'" class="w-100 text-center">
+                    <img
+                      class="w-100"
+                      src="assets/upload.png"
+                      (click)="fileClick()"
+                    />
+                    <div class="invisible">
+                      <input
+                        id="file"
+                        #file
+                        [formControlName]="item.name"
+                        type="file"
+                      />
+                    </div>
+                  </div>
+
+                  <div *ngSwitchCase="'map'" class="w-100 border">
+                    <lib-map></lib-map>
+                  </div>
+
+                  <div *ngSwitchCase="'select'">
+                    <select
+                      formControlName="locationType"
+                      class="form-select w-100"
+                    >
+                      <option class="bg-light" value="Business" selected>
+                        Business
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right w-100 p-3">
+            <span>
+              <button
+                (click)="cancelSharing()"
+                class="btn btn-light text-light"
+              >
+                cancel
+              </button>
+            </span>
+            <span>
+              <button
+                [disabled]="!form.valid"
+                [class.animated]="form.valid"
+                class="btn btn-primary cursor-pointer"
+                type="submit"
+              >
+                save
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div>
+    {{ msg }}
+  </div>
+  <div *ngFor="let i of information | keyvalue">
+    {{ i.key }} : {{ i.value }}
+  </div>
+  <div *ngIf="msg.length > 0">
+    <button (click)="retrieveLocalStorage()" class="btn btn-primary m-4">
+      Retrieve from localstorage ...
+    </button>
+  </div>
+</div>
+
+<div *ngIf="cancel" [class.fadeIn]="cancel" class="w-100 text-center fadeIn">
+  <span>Bye!</span>
+</div>

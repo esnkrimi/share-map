@@ -1,0 +1,11 @@
+<div
+  #mapFrame
+  id="mapFrame"
+  [class.map-container]="zoomFlag"
+  [class.map-container-thumbnail]="!zoomFlag"
+>
+  <div class="map-frame">
+    <div id="map"></div>
+  </div>
+  <div *ngIf="!zoomFlag" (click)="toggle()" class="top-frame w-100"></div>
+</div>
